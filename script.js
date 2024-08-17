@@ -3,9 +3,9 @@ showSlides();
 
 function showSlides() {
     const slides = document.querySelectorAll(".slide");
-    for (let i = 0; i < slides.length; i++) {
-        slides[i].style.opacity = "0";
-    }
+    slides.forEach((slide) => {
+        slide.style.opacity = "0";
+    });
     slideIndex++;
     if (slideIndex > slides.length) {
         slideIndex = 1;
@@ -14,20 +14,28 @@ function showSlides() {
     setTimeout(showSlides, 2500);
 }
 
+let lastScrollTop = 0;
+
 window.addEventListener("scroll", function () {
     const header = document.querySelector("header");
     const sinceText = document.querySelector(".since-text");
     const logo = document.querySelector(".logo");
 
     if (window.scrollY > 50) {
-        header.style.padding = "5px 10px";
-        logo.style.width = "120px";
-        sinceText.style.fontSize = "12px";
+        logo.style.transform = "scale(0.8)";
+        sinceText.style.transform = "scale(0.8)";
     } else {
-        header.style.padding = "10px 20px";
-        logo.style.width = "150px";
-        sinceText.style.fontSize = "16px";
+        logo.style.transform = "scale(1)";
+        sinceText.style.transform = "scale(1)";
     }
+
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollTop > lastScrollTop) {
+        header.style.top = "-100px";
+    } else {
+        header.style.top = "0";
+    }
+    lastScrollTop = scrollTop;
 });
 
 window.addEventListener("scroll", function () {
@@ -44,6 +52,7 @@ window.addEventListener("scroll", function () {
         }
     });
 });
+
 function scrollToContact() {
     const contactSection = document.getElementById("contact");
     window.scrollTo({
@@ -51,16 +60,3 @@ function scrollToContact() {
         behavior: 'smooth'
     });
 }
-let lastScrollTop = 0;
-const header = document.querySelector("header");
-
-window.addEventListener("scroll", function () {
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    if (scrollTop > lastScrollTop) {
-        header.style.top = "-100px";
-    } else {
-        header.style.top = "0";
-    }
-    lastScrollTop = scrollTop;
-});
